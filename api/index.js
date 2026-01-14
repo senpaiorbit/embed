@@ -24,17 +24,280 @@ function setCache(key, value, ttlSeconds) {
 }
 
 /**
+ * GET /
+ * Homepage
+ */
+app.get('/', (c) => {
+  return c.html(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Clean Video Player API</title>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+        .container {
+          max-width: 900px;
+          width: 100%;
+          background: white;
+          border-radius: 20px;
+          padding: 40px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+          color: #333;
+          margin-bottom: 10px;
+          font-size: 36px;
+        }
+        .subtitle {
+          color: #666;
+          margin-bottom: 30px;
+          font-size: 18px;
+        }
+        .api-section {
+          background: #f8f9fa;
+          padding: 25px;
+          border-radius: 12px;
+          margin-bottom: 20px;
+          border-left: 4px solid #667eea;
+        }
+        .api-section h3 {
+          color: #333;
+          margin-bottom: 15px;
+          font-size: 20px;
+        }
+        .endpoint {
+          background: white;
+          padding: 15px;
+          border-radius: 8px;
+          margin-bottom: 15px;
+          border: 1px solid #e0e0e0;
+        }
+        .method {
+          display: inline-block;
+          background: #28a745;
+          color: white;
+          padding: 4px 12px;
+          border-radius: 4px;
+          font-size: 12px;
+          font-weight: 600;
+          margin-right: 10px;
+        }
+        .path {
+          font-family: 'Courier New', monospace;
+          color: #667eea;
+          font-weight: 600;
+        }
+        .description {
+          color: #666;
+          margin-top: 10px;
+          line-height: 1.6;
+        }
+        .example {
+          background: #2d3748;
+          color: #e2e8f0;
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 10px;
+          font-family: 'Courier New', monospace;
+          font-size: 14px;
+          overflow-x: auto;
+        }
+        .badge {
+          display: inline-block;
+          background: #28a745;
+          color: white;
+          padding: 5px 15px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 600;
+          margin-bottom: 20px;
+        }
+        .test-btn {
+          display: inline-block;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 10px 20px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 500;
+          margin-top: 10px;
+          transition: transform 0.2s;
+        }
+        .test-btn:hover {
+          transform: translateY(-2px);
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="badge">✓ API Ready</div>
+        <h1>🎬 Video Player API</h1>
+        <p class="subtitle">Clean, ad-free video embedding with query parameters</p>
+        
+        <div class="api-section">
+          <h3>📡 API Endpoints</h3>
+          
+          <div class="endpoint">
+            <div>
+              <span class="method">GET</span>
+              <span class="path">/api/embed.js</span>
+            </div>
+            <p class="description">
+              Get video player with query parameters
+            </p>
+            <div class="example">
+              /api/embed.js?url=VIDEO_URL&autoplay=true
+            </div>
+            <a href="/api/embed.js?url=https://hglink.to/e/0tmqi4jmtowr" class="test-btn" target="_blank">Test This Endpoint</a>
+          </div>
+          
+          <div class="endpoint">
+            <div>
+              <span class="method">GET</span>
+              <span class="path">/api/source/:id</span>
+            </div>
+            <p class="description">
+              Get video source information (JSON response)
+            </p>
+            <div class="example">
+              /api/source/0tmqi4jmtowr
+            </div>
+            <a href="/api/source/0tmqi4jmtowr" class="test-btn" target="_blank">Test This Endpoint</a>
+          </div>
+          
+          <div class="endpoint">
+            <div>
+              <span class="method">GET</span>
+              <span class="path">/embed/:id</span>
+            </div>
+            <p class="description">
+              Direct embed player (path parameter)
+            </p>
+            <div class="example">
+              /embed/https://hglink.to/e/0tmqi4jmtowr
+            </div>
+            <a href="/embed/https://hglink.to/e/0tmqi4jmtowr" class="test-btn" target="_blank">Test This Endpoint</a>
+          </div>
+        </div>
+        
+        <div class="api-section">
+          <h3>📖 Query Parameters</h3>
+          <div class="endpoint">
+            <p class="description">
+              <strong>url</strong> - Video URL to embed (required)<br>
+              <strong>autoplay</strong> - Enable autoplay (optional, default: false)<br>
+              <strong>muted</strong> - Start muted (optional, default: false)
+            </p>
+            <div class="example">
+              /api/embed.js?url=https://hglink.to/e/0tmqi4jmtowr&autoplay=true&muted=true
+            </div>
+          </div>
+        </div>
+        
+        <div class="api-section">
+          <h3>🔧 Usage in HTML</h3>
+          <div class="example">
+&lt;iframe 
+  src="https://your-app.vercel.app/api/embed.js?url=VIDEO_URL"
+  width="100%" 
+  height="500"
+  frameborder="0"
+  allowfullscreen
+&gt;&lt;/iframe&gt;
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+/**
+ * GET /api/embed.js
+ * Query parameter based embed
+ */
+app.get('/api/embed.js', async (c) => {
+  try {
+    const url = c.req.query('url');
+    const autoplay = c.req.query('autoplay') === 'true';
+    const muted = c.req.query('muted') === 'true';
+
+    if (!url) {
+      return c.html(generateErrorPage(
+        'Missing URL Parameter',
+        'Please provide a video URL using the ?url= parameter'
+      ));
+    }
+
+    const cacheKey = `embed:query:${url}`;
+
+    // Try cache first
+    const cachedSrc = getCache(cacheKey);
+    if (cachedSrc) {
+      console.log(`[Embed] Serving cached player for ${url}`);
+      return c.html(generateCleanPlayer(cachedSrc, autoplay, muted));
+    }
+
+    console.log(`[Embed] Processing embed for ${url}`);
+
+    let iframeSrc = url;
+
+    // Force HTTPS
+    if (iframeSrc.startsWith('http://')) {
+      iframeSrc = iframeSrc.replace('http://', 'https://');
+    }
+
+    // Add autoplay/muted params if needed
+    const separator = iframeSrc.includes('?') ? '&' : '?';
+    const params = [];
+    if (autoplay) params.push('autoplay=1');
+    if (muted) params.push('muted=1');
+    
+    if (params.length > 0) {
+      iframeSrc = `${iframeSrc}${separator}${params.join('&')}`;
+    }
+
+    // Cache the result
+    setCache(cacheKey, iframeSrc, 1800); // 30 minutes
+
+    return c.html(generateCleanPlayer(iframeSrc, autoplay, muted));
+
+  } catch (error) {
+    console.error('Embed error:', error.message);
+    return c.html(generateErrorPage(
+      'Video Not Available',
+      'This video is currently not available for streaming.'
+    ));
+  }
+});
+
+/**
  * GET /api/source/:id
- * Legacy endpoint - redirects to embed
+ * Get source information (JSON)
  */
 app.get('/api/source/:id', async (c) => {
   try {
     const id = c.req.param('id');
+    
     return c.json({
       success: true,
-      message: 'Use /embed/:id for video playback',
-      embedUrl: `/embed/${id}`
+      id: id,
+      embedUrl: `/embed/${id}`,
+      apiUrl: `/api/embed.js?url=${encodeURIComponent(id)}`,
+      message: 'Use embedUrl or apiUrl for video playback'
     });
+
   } catch (error) {
     return c.json({
       success: false,
@@ -45,7 +308,7 @@ app.get('/api/source/:id', async (c) => {
 
 /**
  * GET /embed/:id
- * Main embed player route
+ * Path parameter based embed
  */
 app.get('/embed/:id', async (c) => {
   try {
@@ -61,11 +324,10 @@ app.get('/embed/:id', async (c) => {
 
     console.log(`[Embed] Processing embed for ${id}`);
 
-    // For direct iframe URLs, use them directly
     let iframeSrc = id;
     
     // If it's a URL, decode it
-    if (id.startsWith('http') || id.includes('%3A%2F%2F')) {
+    if (id.includes('%')) {
       try {
         iframeSrc = decodeURIComponent(id);
       } catch (e) {
@@ -79,14 +341,12 @@ app.get('/embed/:id', async (c) => {
     }
 
     // Cache the result
-    setCache(cacheKey, iframeSrc, 1800); // 30 minutes
+    setCache(cacheKey, iframeSrc, 1800);
 
-    // Serve the clean player
     return c.html(generateCleanPlayer(iframeSrc));
 
   } catch (error) {
     console.error('Embed error:', error.message);
-
     return c.html(generateErrorPage(
       'Video Not Available',
       'This video is currently not available for streaming.'
@@ -95,142 +355,16 @@ app.get('/embed/:id', async (c) => {
 });
 
 /**
- * GET / (Homepage with test player)
- */
-app.get('/', (c) => {
-  const testUrl = 'https://hglink.to/e/0tmqi4jmtowr';
-  return c.html(`
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Clean Video Player - Vercel</title>
-      <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        }
-        .container {
-          max-width: 800px;
-          width: 100%;
-          background: white;
-          border-radius: 20px;
-          padding: 40px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 {
-          color: #333;
-          margin-bottom: 10px;
-          font-size: 32px;
-        }
-        p {
-          color: #666;
-          margin-bottom: 30px;
-          line-height: 1.6;
-        }
-        .player-wrapper {
-          position: relative;
-          padding-bottom: 56.25%; /* 16:9 */
-          height: 0;
-          overflow: hidden;
-          border-radius: 12px;
-          background: #000;
-          margin-bottom: 20px;
-        }
-        .player-wrapper iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          border: none;
-        }
-        .info {
-          background: #f8f9fa;
-          padding: 20px;
-          border-radius: 12px;
-          border-left: 4px solid #667eea;
-        }
-        .info h3 {
-          color: #333;
-          margin-bottom: 10px;
-          font-size: 18px;
-        }
-        .info ul {
-          color: #666;
-          padding-left: 20px;
-        }
-        .info li {
-          margin-bottom: 8px;
-          line-height: 1.5;
-        }
-        code {
-          background: #e9ecef;
-          padding: 2px 6px;
-          border-radius: 4px;
-          font-family: 'Courier New', monospace;
-          font-size: 14px;
-        }
-        .badge {
-          display: inline-block;
-          background: #28a745;
-          color: white;
-          padding: 4px 12px;
-          border-radius: 12px;
-          font-size: 12px;
-          font-weight: 600;
-          margin-bottom: 15px;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="badge">✓ Live Demo</div>
-        <h1>🎬 Clean Video Player</h1>
-        <p>Ad-free, clean video player with advanced blocking features</p>
-        
-        <div class="player-wrapper">
-          <iframe src="/embed/${encodeURIComponent(testUrl)}" allowfullscreen allow="autoplay; encrypted-media; fullscreen"></iframe>
-        </div>
-        
-        <div class="info">
-          <h3>🚀 Features</h3>
-          <ul>
-            <li><strong>Ad Blocking:</strong> Aggressive popup and ad blocking</li>
-            <li><strong>Clean Interface:</strong> Fullscreen video with no distractions</li>
-            <li><strong>Caching:</strong> 30-minute cache for faster loading</li>
-            <li><strong>Mobile Optimized:</strong> Works perfectly on all devices</li>
-          </ul>
-        </div>
-        
-        <div class="info" style="margin-top: 20px;">
-          <h3>📖 Usage</h3>
-          <ul>
-            <li>Embed: <code>/embed/YOUR_VIDEO_URL</code></li>
-            <li>Example: <code>/embed/${encodeURIComponent(testUrl)}</code></li>
-          </ul>
-        </div>
-      </div>
-    </body>
-    </html>
-  `);
-});
-
-/**
  * Generate clean player HTML
  */
-function generateCleanPlayer(iframeSrc) {
+function generateCleanPlayer(iframeSrc, autoplay = false, muted = false) {
   // Force HTTPS
   if (iframeSrc && iframeSrc.startsWith('http://')) {
     iframeSrc = iframeSrc.replace('http://', 'https://');
   }
+
+  // Build iframe attributes
+  const allowAttr = 'autoplay; encrypted-media; fullscreen; picture-in-picture; accelerometer; gyroscope; clipboard-write';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -265,6 +399,7 @@ function generateCleanPlayer(iframeSrc) {
       height: 100%;
       background-color: #000;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 9999;
@@ -277,6 +412,12 @@ function generateCleanPlayer(iframeSrc) {
       border-radius: 50%;
       border-top-color: #fff;
       animation: spin 1s ease-in-out infinite;
+      margin-bottom: 20px;
+    }
+    .loading-text {
+      color: rgba(255,255,255,0.7);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
@@ -287,11 +428,15 @@ function generateCleanPlayer(iframeSrc) {
 <body>
   <div id="loader">
     <div class="spinner"></div>
+    <div class="loading-text">Loading video...</div>
   </div>
   <iframe 
+    id="videoFrame"
     src="${iframeSrc}"
     allowfullscreen
-    allow="autoplay; encrypted-media; fullscreen; picture-in-picture; accelerometer; gyroscope; clipboard-write"
+    allow="${allowAttr}"
+    ${autoplay ? 'autoplay' : ''}
+    ${muted ? 'muted' : ''}
     onload="document.getElementById('loader').style.opacity='0'; setTimeout(() => document.getElementById('loader').style.display='none', 500);"
   ></iframe>
 </body>
