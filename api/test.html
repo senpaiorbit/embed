@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+    
+    .header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+    
+    .player-section {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+    
+    .player-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #000;
+      margin-bottom: 20px;
+    }
+    
+    .player-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .info {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    
+    .info h3 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .info p {
+      color: #666;
+      line-height: 1.6;
+    }
+    
+    code {
+      background: #e9ecef;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #d63384;
+    }
+    
+    .url-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .instructions {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .instructions h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    .instructions ol {
+      padding-left: 20px;
+    }
+    
+    .instructions li {
+      color: #666;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎬 Clean Video Player</h1>
+      <p>Test your video player locally or after deployment</p>
+    </div>
+    
+    <div class="player-section">
+      <h2 style="margin-bottom: 20px; color: #333;">Live Player Demo</h2>
+      
+      <div class="player-wrapper">
+        <!-- Replace YOUR-VERCEL-URL with your actual Vercel URL after deployment -->
+        <!-- For local testing, run: npm run dev and use http://localhost:3000 -->
+        <iframe 
+          id="videoPlayer"
+          src="http://localhost:3000/embed/https%3A%2F%2Fhglink.to%2Fe%2F0tmqi4jmtowr"
+          allowfullscreen
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+        ></iframe>
+      </div>
+      
+      <div class="info">
+        <h3>🎯 Current Video URL</h3>
+        <p><code>https://hglink.to/e/0tmqi4jmtowr</code></p>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <h3 style="color: #333; margin-bottom: 15px;">Try Another Video URL</h3>
+        <input 
+          type="text" 
+          id="videoUrl" 
+          class="url-input" 
+          placeholder="Enter video URL (e.g., https://hglink.to/e/0tmqi4jmtowr)"
+          value="https://hglink.to/e/0tmqi4jmtowr"
+        >
+        <button class="btn" onclick="loadVideo()">Load Video</button>
+      </div>
+    </div>
+    
+    <div class="instructions">
+      <h2>📖 Setup Instructions</h2>
+      <ol>
+        <li><strong>For Local Testing:</strong>
+          <ul>
+            <li>Run <code>npm install</code> to install dependencies</li>
+            <li>Run <code>npm run dev</code> to start the server</li>
+            <li>Open this file in your browser</li>
+          </ul>
+        </li>
+        <li><strong>After Vercel Deployment:</strong>
+          <ul>
+            <li>Replace <code>http://localhost:3000</code> in the iframe src with your Vercel URL</li>
+            <li>Example: <code>https://your-app.vercel.app</code></li>
+          </ul>
+        </li>
+        <li><strong>Usage:</strong>
+          <ul>
+            <li>Format: <code>/embed/VIDEO_URL</code></li>
+            <li>URL encode special characters</li>
+            <li>Example: <code>/embed/https%3A%2F%2Fhglink.to%2Fe%2F0tmqi4jmtowr</code></li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </div>
+  
+  <script>
+    function loadVideo() {
+      const url = document.getElementById('videoUrl').value;
+      const encodedUrl = encodeURIComponent(url);
+      
+      // Change this to your Vercel URL after deployment
+      const baseUrl = 'http://localhost:3000';
+      
+      const iframe = document.getElementById('videoPlayer');
+      iframe.src = `${baseUrl}/embed/${encodedUrl}`;
+    }
+    
+    // Log for debugging
+    console.log('Video Player Test Page Loaded');
+    console.log('Change baseUrl in the script after Vercel deployment');
+  </script>
+</body>
+</html>
